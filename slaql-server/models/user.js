@@ -13,7 +13,6 @@ export default (sequelize, DataTypes) => {
 			},
 			password: DataTypes.STRING,
 		},
-		{ underscored: true },
 	);
 
 	User.associate = (models) => {
