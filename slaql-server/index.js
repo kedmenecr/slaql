@@ -1,25 +1,24 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
-import { makeExecutableSchema } from 'graphql-tools';
-import models from './models';
+import Sequelize from 'sequelize';
 
-import typeDefs from './schema';
-import resolvers from './resolvers';
-
-const schema = makeExecutableSchema({
-	typeDefs,
-	resolvers,
+const sequelize = new Sequelize('slack', 'root', 'root', {
+	dialect: 'postgres',
+	underscored: true,
 });
 
-const app = express();
+const models = {
+	User: sequelize.import('./user'),
+	Channel: sequelize.import('./channel'),
+	Message: sequelize.import('./message'),
+	Team: sequelize.import('./team'),
+};
 
-const graphqlEndpoint = '/graphql';
-
-app.use(graphqlEndpoint, bodyParser.json(), graphqlExpress({ schema }));
-
-app.use('/graphiql', graphiqlExpress({ endpointURL: graphqlEndpoint }));
-
-models.sequelize.sync({ force: true }).then(() => {
-	app.listen(8081);
+Object.keys(models).forEach((modelName) => {
+	if ('associate' in models[modelName]) {
+		models[modelName].associate(models);
+	}
 });
+
+models.sequelize = sequelize;
+models.Sequelize = Sequelize;
+
+export default models;
