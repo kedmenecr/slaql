@@ -20,23 +20,20 @@ export default `
 
   type RegisterResponse {
     ok: Boolean!
-    user: User!
-    errors : [Error!]
+    user: User
+    errors: [Error!]
   }
 
-  type LoginResponse{
+  type LoginResponse {
     ok: Boolean!
     token: String
     refreshToken: String
     errors: [Error!]
   }
 
-
   type Mutation {
     register(username: String!, email: String!, password: String!): RegisterResponse!
-    login(email: String!, password: String!): LoginResponse
+    login(email: String!, password: String!): LoginResponse!
   }
-
-  
 
 `;

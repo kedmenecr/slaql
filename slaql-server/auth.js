@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 export const createTokens = async (user, secret, secret2) => {
   const createToken = jwt.sign(
     {
-      user: _.pick(user, ['id', 'isAdmin']),
+      user: _.pick(user, ['id']),
     },
     secret,
     {
@@ -74,14 +74,13 @@ export const tryLogin = async (email, password, models, SECRET, SECRET2) => {
     // bad password
     return {
       ok: false,
-      errors: [{ path: 'password', message: 'wrong password' }],
+      errors: [{ path: 'password', message: 'Wrong password' }],
     };
   }
 
-  const refrehTokenSecret = user.password + SECRET2;
+  const refreshTokenSecret = user.password + SECRET2;
 
-  const [token, refreshToken] = await createTokens(user, SECRET, refrehTokenSecret);
-
+  const [token, refreshToken] = await createTokens(user, SECRET, refreshTokenSecret);
 
   return {
     ok: true,

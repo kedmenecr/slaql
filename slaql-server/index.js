@@ -8,8 +8,9 @@ import cors from 'cors';
 
 import models from './models';
 
-const SECRET = 'addsadaslkdasldmql212312312';
-const SECRET2 = 'addsadaslkdasldmql212312312';
+const SECRET = 'asiodfhoi1hoi23jnl1kejd';
+const SECRET2 = 'asiodfhoi1hoi23jnl1kejasdjlkfasdd';
+
 const typeDefs = mergeTypes(fileLoader(path.join(__dirname, './schema')));
 
 const resolvers = mergeResolvers(fileLoader(path.join(__dirname, './resolvers')));
@@ -35,9 +36,9 @@ app.use(
       user: {
         id: 1,
       },
+      SECRET,
+      SECRET2,
     },
-    SECRET,
-    SECRET2,
   }),
 );
 
